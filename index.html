@@ -1,12 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Weekly Forcast App</h1>
+    <button>Forcast</button>
+    <section class="output-section"></section>
+    <dialog open id="centerpoint">
+      <dialog id="dialog">
+        <form action="">
+          <label for="location">Submit a location: </label>
+          <input type="text" id="location" />
+          <button>Forcast Location</button>
+        </form>
+      </dialog>
+    </dialog>
     <script src="main.js"></script>
-</body>
+  </body>
 </html>

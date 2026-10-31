@@ -8,14 +8,16 @@
   </head>
   <body>
     <h1>Weekly Forcast App</h1>
-    <button>Forcast</button>
+    <button id="forcast-button">Forcast</button>
     <section class="output-section"></section>
-    <dialog open id="centerpoint">
+    <dialog id="centerpoint">
       <dialog id="dialog">
         <form action="">
-          <label for="location">Submit a location: </label>
-          <input type="text" id="location" />
-          <button>Forcast Location</button>
+          <p class="form-child">
+            <label for="location">Submit a location: </label>
+            <input type="text" id="location" />
+          </p>
+          <button id="submit-forcast">Forcast Location</button>
         </form>
       </dialog>
     </dialog>

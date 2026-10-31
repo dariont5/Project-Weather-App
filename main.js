@@ -1,8 +1,15 @@
-const button = document.querySelector("button");
-const dialog = document.querySelector("#dialog");
-button.addEventListener("click", () => {
+const forcastButton = document.querySelector("button#forcast-button");
+const dialog = document.querySelector("#centerpoint");
+forcastButton.addEventListener("click", () => {
   dialog.setAttribute("open", "");
+  console.log('1 button')
 });
+const submitButton = document.querySelector('button#submit-forcast');
+submitButton.addEventListener('click', (event) => {
+  event.preventDefault();
+  dialog.removeAttribute('open');
+  console.log('2 button')
+})
 
 async function execute(locationQuery) {
   let daysArray = await retrieveInfo(locationQuery)

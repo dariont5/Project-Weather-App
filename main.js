@@ -4,11 +4,32 @@ button.addEventListener("click", () => {
   dialog.setAttribute("open", "");
 });
 
-const key = "key=SL4AFSNJ65NFN7UNNKF934WG3";
-const locationQuery = "houston";
-const query =
-  "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
+async function execute(locationQuery) {
+  let daysArray = await retrieveInfo(locationQuery)
+  let data = weekDataRetriever(daysArray)
+  console.log(data)
+  return data
+}
 
-const fullQuery = query + locationQuery + "?" + key;
+async function retrieveInfo(locationQuery) {
+  const key = "key=SL4AFSNJ65NFN7UNNKF934WG3";
+  const query ="https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
+  const fullQuery = query + locationQuery + "?" + key;
+  const daysArray = await fetch(fullQuery)
+  .then((response) => response.json())
+  .then(response => response.days);
+  return daysArray
+}
 
-fetch();
+function weekDataRetriever(response) {
+  const weeklyData = [];
+  for (let i = 0; i < 7; i++) {
+    const datetime = response[i].datetime
+    const tempmin = response[i].tempmin
+    const temp = response[i].temp
+    const tempmax = response[i].tempmax
+    const dailyData = {datetime,tempmin,temp,tempmax};
+    weeklyData.push(dailyData)
+  }
+  return weeklyData
+}

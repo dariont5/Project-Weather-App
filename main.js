@@ -11,7 +11,10 @@ submitButton.addEventListener("click", (event) => {
   execute(userInput.value)
 });
 
+const tempState = {unit: 'F'}
+
 async function execute(locationQuery) {
+  tempState.unit = 'F'
   let daysArray = await retrieveInfo(locationQuery);
   let data = weekDataRetriever(daysArray);
   populateDate(data)
@@ -32,11 +35,11 @@ function populateDate(dateArray) {
     dateContainer.textContent = date;
     const tempContainer = targetDiv.querySelector('.temps');
     const tempMinContainer = tempContainer.querySelector('.low');
-    tempMinContainer.textContent = tempMin;
-    const tempActualContainer = tempContainer.querySelector('.actual');
-    tempActualContainer.textContent = temp;
+    tempMinContainer.textContent = 'L: ' + tempMin + '°';
+    const tempActualContainer = targetDiv.querySelector('.actual-temp');
+    tempActualContainer.textContent = temp + '°';
     const tempMaxContainer = tempContainer.querySelector('.high');
-    tempMaxContainer.textContent = tempMax;
+    tempMaxContainer.textContent = 'H: ' + tempMax + '°';
   }
 }
 
@@ -62,4 +65,67 @@ function weekDataRetriever(response) {
     weeklyData.push(dailyData);
   }
   return weeklyData;
+}
+
+const toFahrenheitButton = document.querySelector('button.f');
+toFahrenheitButton.addEventListener('click', toFahrenheit)
+const toCelsiusButton = document.querySelector('button.c');
+toCelsiusButton.addEventListener('click', toCelsius)
+
+function parseStrToFloat(stringInput) {
+  return parseFloat(stringInput.replace(/[^1-9.]/g, ""))
+}
+
+function toFahrenheit() {
+  if (tempState.unit === 'F') {
+    return
+  } else if (tempState.unit === 'C') {
+    for (let i = 0; i < 7; i++) {
+      const targetDiv = document.querySelector(`div#div${i+1}`)
+      const tempContainer = targetDiv.querySelector('.temps');
+      const tempMinContainer = tempContainer.querySelector('.low');
+      const newTempMin = String(Math.round(calculateFahrenheit(parseStrToFloat(tempMinContainer.textContent))*10)/10)
+      tempMinContainer.textContent = 'L: ' + newTempMin + '°';
+
+      const tempActualContainer = targetDiv.querySelector('.actual-temp');
+      const newTemp = String(Math.round(calculateFahrenheit(parseStrToFloat(tempActualContainer.textContent))*10)/10)
+      tempActualContainer.textContent = newTemp + '°';
+
+      const tempMaxContainer = tempContainer.querySelector('.high');
+      const newTempMax = String(Math.round(calculateFahrenheit(parseStrToFloat(tempMaxContainer.textContent))*10)/10)
+      tempMaxContainer.textContent = 'H: ' + newTempMax + '°';
+    }
+    tempState.unit = 'F'
+  }
+}
+
+function calculateFahrenheit(temp) {
+  return (temp*9/5)+32
+}
+
+function toCelsius() {
+  if (tempState.unit === 'C') {
+    return
+  } else if (tempState.unit === 'F') {
+    for (let i = 0; i < 7; i++) {
+      const targetDiv = document.querySelector(`div#div${i+1}`)
+      const tempContainer = targetDiv.querySelector('.temps');
+      const tempMinContainer = tempContainer.querySelector('.low');
+      const newTempMin = String(Math.round(calculateCelsius(parseStrToFloat(tempMinContainer.textContent))*10)/10)
+      tempMinContainer.textContent = 'L: ' + newTempMin + '°';
+
+      const tempActualContainer = targetDiv.querySelector('.actual-temp');
+      const newTemp = String(Math.round(calculateCelsius(parseStrToFloat(tempActualContainer.textContent))*10)/10)
+      tempActualContainer.textContent = newTemp + '°';
+
+      const tempMaxContainer = tempContainer.querySelector('.high');
+      const newTempMax = String(Math.round(calculateCelsius(parseStrToFloat(tempMaxContainer.textContent))*10)/10)
+      tempMaxContainer.textContent = 'H: ' + newTempMax + '°';
+    }
+    tempState.unit = 'C'
+  }
+}
+
+function calculateCelsius(temp) {
+  return (temp-32)*5/9
 }

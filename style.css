@@ -108,6 +108,6 @@ form {
   gap: 10px;
 }
 
-.output-section div {
+.output-section div.glass {
   height: 500px;
 }
